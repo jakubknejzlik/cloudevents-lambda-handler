@@ -9,7 +9,7 @@ type SQSEvent struct {
 	events.SQSEvent `json:",inline"`
 }
 
-func DecodeSQSEvent(body []byte) (message *EventBridgeEvent, ok bool) {
+func DecodeSQSEvent(body []byte) (message *SQSEvent, ok bool) {
 	ok = false
 	err := json.Unmarshal(body, &message)
 	if err == nil && message.IsValid() {
