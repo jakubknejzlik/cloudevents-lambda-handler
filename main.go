@@ -2,6 +2,7 @@ package handler
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/aws/aws-lambda-go/lambda"
 	cloudevents "github.com/cloudevents/sdk-go"
@@ -29,6 +30,9 @@ func (h *CloudEventsLambdaHandler) Invoke(ctx context.Context, payload []byte) (
 		messageBodies = m.GetBodies()
 	} else if m, ok := DecodeSQSEvent(payload); ok {
 		messageBodies = m.GetBodies()
+	} else {
+		err = fmt.Errorf("failed to decode payload %s", string(payload))
+		return
 	}
 
 	for _, body := range messageBodies {
